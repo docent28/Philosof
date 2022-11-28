@@ -17,13 +17,26 @@ fun main(args: Array<String>) {
         arrayOf(philosopherJohn, philosopherHarry, philosopherJack, philosopherRonald, philosopherRichard)
     val forks = arrayOf(forkOne, forkTwo, forkThree, forkFour, forkFive)
 
-    var timeMap: MutableMap<Int, String> =
+    val timeMap: MutableMap<Int, String> =
         philosophers.associateBy(keySelector = { philosophers.indexOf(it) },
             valueTransform = { it.name }
         ) as MutableMap<Int, String>
 
-    println(selectPhilosopher(timeMap, forks, philosophers))
-
+    var rr = selectPhilosopher(timeMap, forks, philosophers)
+    println(rr)
+    timeMap.remove(rr)
+    rr = selectPhilosopher(timeMap, forks, philosophers)
+    println(rr)
+    timeMap.remove(rr)
+    rr = selectPhilosopher(timeMap, forks, philosophers)
+    println(rr)
+    timeMap.remove(rr)
+    rr = selectPhilosopher(timeMap, forks, philosophers)
+    println(rr)
+    timeMap.remove(rr)
+    rr = selectPhilosopher(timeMap, forks, philosophers)
+    println(rr)
+    timeMap.remove(rr)
 
 //    println("${philosophers[indexPhilosopher].name} взял вилку слева и справа от себя ")
 
@@ -33,8 +46,6 @@ fun main(args: Array<String>) {
 
 //    println(timeMap)
 
-//    timeMap.remove(indexPhilosopher)
-    val iii = Random.nextInt(timeMap.size)
 }
 
 fun selectPhilosopher(
@@ -42,9 +53,8 @@ fun selectPhilosopher(
     timeForks: Array<Fork>,
     timePhilosopher: Array<Philosopher>
 ): Int {
-
-    val valRandom = Random.nextInt(mapPhilosopher.size)
-    val indexPhilosopher = mapPhilosopher.keys
+    println(mapPhilosopher)
+    val indexPhilosopher = ArrayList(mapPhilosopher.keys).random()
 
     val indexForkLeft = indexPhilosopher
     val indexForkRight = if (indexPhilosopher - 1 == -1) {
@@ -55,5 +65,5 @@ fun selectPhilosopher(
     timeForks[indexForkLeft].state = "busy"
     timeForks[indexForkRight].state = "busy"
     timePhilosopher[indexPhilosopher].state = "takes Food"
-    return 6
+    return indexPhilosopher
 }
