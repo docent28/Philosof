@@ -1,6 +1,4 @@
-import kotlin.random.Random
-
-fun main(args: Array<String>) {
+fun main() {
     val philosopherJohn = Philosopher("John")
     val philosopherHarry = Philosopher("Harry")
     val philosopherJack = Philosopher("Jack")
@@ -22,48 +20,35 @@ fun main(args: Array<String>) {
             valueTransform = { it.name }
         ) as MutableMap<Int, String>
 
-    var rr = selectPhilosopher(timeMap, forks, philosophers)
-    println(rr)
-    timeMap.remove(rr)
-    rr = selectPhilosopher(timeMap, forks, philosophers)
-    println(rr)
-    timeMap.remove(rr)
-    rr = selectPhilosopher(timeMap, forks, philosophers)
-    println(rr)
-    timeMap.remove(rr)
-    rr = selectPhilosopher(timeMap, forks, philosophers)
-    println(rr)
-    timeMap.remove(rr)
-    rr = selectPhilosopher(timeMap, forks, philosophers)
-    println(rr)
-    timeMap.remove(rr)
-
-//    println("${philosophers[indexPhilosopher].name} взял вилку слева и справа от себя ")
-
-//    forks.forEach { println(it.state) }
-
-//    forks.forEachIndexed { ind, el -> println("index = $ind name = ${el.state}") }
-
-//    println(timeMap)
-
+    while (timeMap.isNotEmpty()) {
+        val indexPhilosopher = selectPhilosopher(timeMap)
+        if (checkForkOccupancy(forks, indexPhilosopher)) {
+            philosophers[indexPhilosopher].state = "takes Food"
+            println("${philosophers[indexPhilosopher].name} взял вилку слева и справа от себя ")
+            timeMap.remove(indexPhilosopher)
+        } else {
+            println("${philosophers[indexPhilosopher].name} размышляет")
+            timeMap.remove(indexPhilosopher)
+        }
+    }
 }
 
-fun selectPhilosopher(
-    mapPhilosopher: Map<Int, String>,
-    timeForks: Array<Fork>,
-    timePhilosopher: Array<Philosopher>
-): Int {
-    println(mapPhilosopher)
-    val indexPhilosopher = ArrayList(mapPhilosopher.keys).random()
-
+fun checkForkOccupancy(timeForks: Array<Fork>, indexPhilosopher: Int): Boolean {
     val indexForkLeft = indexPhilosopher
     val indexForkRight = if (indexPhilosopher - 1 == -1) {
         4
     } else {
         indexPhilosopher - 1
     }
-    timeForks[indexForkLeft].state = "busy"
-    timeForks[indexForkRight].state = "busy"
-    timePhilosopher[indexPhilosopher].state = "takes Food"
-    return indexPhilosopher
+    return if (timeForks[indexForkLeft].state == "busy" || timeForks[indexForkRight].state == "busy") {
+        false
+    } else {
+        timeForks[indexForkLeft].state = "busy"
+        timeForks[indexForkRight].state = "busy"
+        true
+    }
+}
+
+fun selectPhilosopher(mapPhilosopher: Map<Int, String>): Int {
+    return ArrayList(mapPhilosopher.keys).random()
 }
