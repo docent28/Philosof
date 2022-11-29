@@ -1,3 +1,3 @@
-class Fork(val number: Int) {
+class Fork(val name: String) {
     var state = "free"
 }

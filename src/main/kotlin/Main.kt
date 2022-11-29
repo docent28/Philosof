@@ -5,15 +5,20 @@ fun main() {
     val philosopherRonald = Philosopher("Ronald")
     val philosopherRichard = Philosopher("Richard")
 
-    val forkOne = Fork(1)
-    val forkTwo = Fork(2)
-    val forkThree = Fork(3)
-    val forkFour = Fork(4)
-    val forkFive = Fork(5)
+    val forkOne = Fork("fork01")
+    val forkTwo = Fork("fork02")
+    val forkThree = Fork("fork03")
+    val forkFour = Fork("fork04")
+    val forkFive = Fork("fork05")
 
     val philosophers =
         arrayOf(philosopherJohn, philosopherHarry, philosopherJack, philosopherRonald, philosopherRichard)
     val forks = arrayOf(forkOne, forkTwo, forkThree, forkFour, forkFive)
+
+    val testForks = ArrayList<Fork>(5)
+    for (1 in 1..5) {
+        testForks.add()
+    }
 
     val timeMap: MutableMap<Int, String> =
         philosophers.associateBy(keySelector = { philosophers.indexOf(it) },
