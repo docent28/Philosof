@@ -16,8 +16,11 @@ fun main() {
     val forks = arrayOf(forkOne, forkTwo, forkThree, forkFour, forkFive)
 
     val testForks = ArrayList<Fork>(5)
-    for (1 in 1..5) {
-        testForks.add()
+    for (i in 1..5) {
+        testForks.add(Fork("fork$i"))
+    }
+    for (ind in 0..4){
+        println("[${testForks[ind].name}]")
     }
 
     val timeMap: MutableMap<Int, String> =
