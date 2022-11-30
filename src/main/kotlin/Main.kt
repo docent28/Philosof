@@ -2,28 +2,15 @@ fun main() {
     println("Укажите числом количество философов за круглым столом")
     val countPhilosopher = enteringCountNum()
 
-    val philosopherJohn = Philosopher("John")
-    val philosopherHarry = Philosopher("Harry")
-    val philosopherJack = Philosopher("Jack")
-    val philosopherRonald = Philosopher("Ronald")
-    val philosopherRichard = Philosopher("Richard")
+    val philosophers = ArrayList<Philosopher>()
+    val forks = ArrayList<Fork>()
 
-    val forkOne = Fork("fork01")
-    val forkTwo = Fork("fork02")
-    val forkThree = Fork("fork03")
-    val forkFour = Fork("fork04")
-    val forkFive = Fork("fork05")
-
-    val philosophers =
-        arrayOf(philosopherJohn, philosopherHarry, philosopherJack, philosopherRonald, philosopherRichard)
-    val forks = arrayOf(forkOne, forkTwo, forkThree, forkFour, forkFive)
-
-    val testForks = ArrayList<Fork>(5)
-    for (i in 1..5) {
-        testForks.add(Fork("fork$i"))
-    }
-    for (ind in 0..4) {
-        println("[${testForks[ind].name}]")
+    println("Введите имена философов")
+    for (i in 0 until countPhilosopher) {
+        print("Имя философа номер $i - ")
+        val namePhilosopher = readln()
+        philosophers.add(Philosopher(namePhilosopher))
+        forks.add(Fork("fork$i"))
     }
 
     val timeMap: MutableMap<Int, String> =
@@ -32,15 +19,14 @@ fun main() {
         ) as MutableMap<Int, String>
 
     while (timeMap.isNotEmpty()) {
-        val indexPhilosopher = selectPhilosopher(timeMap)
-        if (checkForkOccupancy(forks, indexPhilosopher)) {
+        val indexPhilosopher = selectPhilosopherRandom(timeMap)
+        if (checkForkOccupancy(forks, indexPhilosopher, countPhilosopher)) {
             philosophers[indexPhilosopher].state = "takes Food"
             println("${philosophers[indexPhilosopher].name} взял вилку слева и справа от себя ")
-            timeMap.remove(indexPhilosopher)
         } else {
             println("${philosophers[indexPhilosopher].name} размышляет")
-            timeMap.remove(indexPhilosopher)
         }
+        timeMap.remove(indexPhilosopher)
     }
 }
 
@@ -63,10 +49,10 @@ fun isPosOrNegNumber(s: String?): Boolean {
     else regex.matches(s)
 }
 
-fun checkForkOccupancy(timeForks: Array<Fork>, indexPhilosopher: Int): Boolean {
+fun checkForkOccupancy(timeForks: ArrayList<Fork>, indexPhilosopher: Int, countPhilosopher: Int): Boolean {
     val indexForkLeft = indexPhilosopher
     val indexForkRight = if (indexPhilosopher - 1 == -1) {
-        4
+        countPhilosopher - 1
     } else {
         indexPhilosopher - 1
     }
@@ -79,6 +65,6 @@ fun checkForkOccupancy(timeForks: Array<Fork>, indexPhilosopher: Int): Boolean {
     }
 }
 
-fun selectPhilosopher(mapPhilosopher: Map<Int, String>): Int {
+fun selectPhilosopherRandom(mapPhilosopher: Map<Int, String>): Int {
     return ArrayList(mapPhilosopher.keys).random()
 }
