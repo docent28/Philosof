@@ -1,4 +1,7 @@
 fun main() {
+    println("Укажите числом количество философов за круглым столом")
+    val countPhilosopher = enteringCountNum()
+
     val philosopherJohn = Philosopher("John")
     val philosopherHarry = Philosopher("Harry")
     val philosopherJack = Philosopher("Jack")
@@ -19,7 +22,7 @@ fun main() {
     for (i in 1..5) {
         testForks.add(Fork("fork$i"))
     }
-    for (ind in 0..4){
+    for (ind in 0..4) {
         println("[${testForks[ind].name}]")
     }
 
@@ -39,6 +42,25 @@ fun main() {
             timeMap.remove(indexPhilosopher)
         }
     }
+}
+
+fun enteringCountNum(): Int {
+    var intCountBool = true
+    var userCount = ""
+    while (intCountBool) {
+        print("Введите количество с помощью положительного целого числа - ")
+        userCount = readln()
+        if (isPosOrNegNumber(userCount)) {
+            intCountBool = false
+        }
+    }
+    return userCount.toInt()
+}
+
+fun isPosOrNegNumber(s: String?): Boolean {
+    val regex = """^[0-9]+$""".toRegex()
+    return if (s.isNullOrEmpty()) false
+    else regex.matches(s)
 }
 
 fun checkForkOccupancy(timeForks: Array<Fork>, indexPhilosopher: Int): Boolean {
