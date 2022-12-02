@@ -54,7 +54,7 @@ fun checkForkOccupancy(timeForks: ArrayList<Fork>, indexPhilosopher: Int, countP
     val indexForkRight = if (indexPhilosopher - 1 == -1) {
         countPhilosopher - 1
     } else {
-        indexPhilosopher
+        indexPhilosopher - 1
     }
     return if (timeForks[indexForkLeft].state == "busy" || timeForks[indexForkRight].state == "busy") {
         false
